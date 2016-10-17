@@ -15,7 +15,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 function proxy_on() {
-    export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+    export no_proxy="localhost,127.0.0.1,localaddress,*.localdomain.com"
 
     if (( $# > 0 )); then
         valid=$(echo $@ | sed -n 
@@ -29,7 +29,6 @@ function proxy_on() {
         export https_proxy=$http_proxy
         export ftp_proxy=$http_proxy
         export rsync_proxy=$http_proxy
-        echo "Proxy environment variable set."
         return 0
     fi
 
@@ -60,8 +59,9 @@ function proxy_on() {
     gsettings set org.gnome.system.proxy.https port $port
     gsettings set org.gnome.system.proxy.socks host $server
     gsettings set org.gnome.system.proxy.socks port $port
-    gsettings set org.gnome.system.proxy ignore-hosts "['localhost', 
-'127.0.0.0/8', '10.0.0.0/8', '*.localdomain.com' ]"
+    gsettings set org.gnome.system.proxy ignore-hosts "['localhost', 'localaddress', '*.localdomain.com' ]"
+    
+    echo "Proxy environment variable set."
 }
 
 function proxy_off(){
