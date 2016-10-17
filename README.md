@@ -1,0 +1,2 @@
+# bashrc
+A custom bashrc.
